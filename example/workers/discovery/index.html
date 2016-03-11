@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head></head>
+<body>
+	<h1>Worker</h1>
+    <script type="text/javascript">
+	const ipc = require('ipc-renderer');
+	var func = require('./script');
+
+	ipc.send('discovery.self.ready');
+
+	ipc.on('discovery.self.start', () => {
+	    ipc.send('discovery.self.fetchParcel');
+	});
+
+	ipc.on('discovery.self.parcelReceive', (ev, parcel) => {
+		setTimeout(() => {
+			update({ msg: `Data parcel received: ${JSON.stringify(parcel)}` });
+			close({ msg: 'discovery completed!'});
+		}, 1000);
+	    func();
+	});
+
+	var update = msg => ipc.send('discovery.self.update', msg);
+	var close  = msg => ipc.send('discovery.self.complete', msg);
+
+    </script>
+</body>
+</html>

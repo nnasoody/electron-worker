@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head></head>
+<body>
+	<h1>Worker</h1>
+    <script type="text/javascript">
+	const ipc = require('ipc-renderer');
+	var func = require('./script');
+
+	ipc.send('{{process}}.self.ready');
+
+	ipc.on('{{process}}.self.start', () => {
+	    ipc.send('{{process}}.self.fetchParcel');
+	});
+
+	ipc.on('{{process}}.self.parcelReceive', (ev, parcel) => {
+		setTimeout(() => {
+			update({ msg: `Data parcel received: ${JSON.stringify(parcel)}` });
+			close({ msg: '{{process}} completed!'});
+		}, 1000);
+	    func();
+	});
+
+	var update = msg => ipc.send('{{process}}.self.update', msg);
+	var close  = msg => ipc.send('{{process}}.self.complete', msg);
+
+    </script>
+</body>
+</html>

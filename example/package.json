@@ -1,0 +1,12 @@
+{
+  "name": "electron-worker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Nima Nasoody",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^0.4.1"
+  }
+}
