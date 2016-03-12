@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head></head>
+<body>
+	<h1>Worker</h1>
+    <script type="text/javascript">
+	const ipc = require('ipc-renderer');
+	var func = require('./script');
+
+	ipc.send('storage.self.ready');
+
+	ipc.on('storage.internal', (ev, parcel) => {
+		debugger;
+	    console.log(parcel);
+	    // ipc.send('storage.self.fetchParcel');
+	});
+
+	ipc.on('storage.self.parcelReceive', (ev, parcel) => {
+		setTimeout(() => {
+			update({ msg: `Data parcel received: ${JSON.stringify(parcel)}` });
+			close({ msg: 'storage completed!'});
+		}, 1000);
+	    func();
+	});
+
+	var update = msg => ipc.send('storage.self.update', msg);
+	var close  = msg => ipc.send('storage.self.complete', msg);
+
+    </script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 
 const app = require('app');
 const BrowserWindow = require('browser-window');
-const worker = require('./workers/discovery/index');
+const worker = require('./workers/storage/index');
 
 // ------------
 // Globals

@@ -28,10 +28,11 @@ function setup() {
     // Event bindings
     ipc.on('discovery.init', init);
     ipc.on('discovery.start', start);
+    ipc.on('discovery.terminate', terminate);
     ipc.on('discovery.self.ready', handleOnSelfReadyComplete);
     ipc.on('discovery.self.update', update);
     ipc.on('discovery.self.fetchParcel', handleFetchParcel);
-    ipc.on('discovery.self.complete', handleOnProcessComplete);
+    ipc.on('discovery.self.complete', handleOnProcessComplete);    
 }
 
 function init(event) {
@@ -66,4 +67,16 @@ function handleFetchParcel(event) {
 
 function handleOnProcessComplete(event, arg) {
     rendererEventRef.sender.send('discovery.completed', arg);
+}
+
+function terminate() {
+    browserWindow.close();
+    
+    ipc.removeAllListeners('discovery.init');
+    ipc.removeAllListeners('discovery.start');
+    ipc.removeAllListeners('discovery.terminate');
+    ipc.removeAllListeners('discovery.self.ready');
+    ipc.removeAllListeners('discovery.self.update');
+    ipc.removeAllListeners('discovery.self.fetchParcel');
+    ipc.removeAllListeners('discovery.self.complete');    
 }
